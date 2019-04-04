@@ -10,6 +10,7 @@ class AddFriend extends Component {
           <div className="form-items">
             <label>Name</label>
             <input
+              required
               onChange={this.props.onChange}
               type="text"
               name="name"
@@ -18,6 +19,7 @@ class AddFriend extends Component {
             />
             <label>Age</label>
             <input
+              required
               onChange={this.props.onChange}
               type="text"
               name="age"
@@ -26,6 +28,7 @@ class AddFriend extends Component {
             />
             <label>Email</label>
             <input
+              required
               onChange={this.props.onChange}
               type="email"
               name="email"

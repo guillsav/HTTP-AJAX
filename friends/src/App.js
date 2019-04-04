@@ -12,6 +12,7 @@ class App extends Component {
       friends: [],
       err: '',
       name: '',
+      age: '',
       email: {}
     };
   }
