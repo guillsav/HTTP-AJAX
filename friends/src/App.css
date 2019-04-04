@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+}
+
+.App .navigation {
+  background: #262626;
+}
+
+.App .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 960px;
+  margin: 0 auto;
+}
+
+.App .navigation h2 {
+  padding: 0;
+  color: #fff;
+}
+
+.App .navigation a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.6;
+  padding: 25px;
+}
+
+.App .navigation a.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.098);
+}
+
+.App .title {
+  font-size: 28px;
+  margin-top: 30px;
+}
