@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {NavLink, Route} from 'react-router-dom';
+import {NavLink, Route, withRouter} from 'react-router-dom';
 import FriendList from './components/FriendsList';
 import AddFriend from './components/AddFriend';
 import EditFriend from './components/EditFriend';
+
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      friends: [],
-      err: '',
-      name: '',
-      age: '',
-      email: {}
-    };
-  }
+  state = {
+    friends: [],
+    err: {},
+    selectedFriend: null
+  };
 
   componentDidMount() {
     axios
@@ -33,29 +29,15 @@ class App extends Component {
       );
   }
 
-  onInputChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  onFormSubmit = e => {
-    e.preventDefault();
-
-    const newFriend = {
-      id: Date.now(),
-      name: this.state.name,
-      age: this.state.age,
-      email: this.state.email
-    };
-
+  addFriend = newFriend => {
     axios
       .post('http://localhost:5000/friends', newFriend)
-      .then(() =>
+      .then(res => {
         this.setState({
-          friends: [...this.state.friends, newFriend]
-        })
-      )
+          friends: res.data
+        });
+        this.props.history.push('/');
+      })
       .catch(err =>
         this.setState({
           err
@@ -69,29 +51,32 @@ class App extends Component {
     });
   };
 
-  onDeleteFriend = id => {
-    axios.delete(`http://localhost:5000/friends/${id}`).then(() =>
-      this.setState({
-        friends: this.state.friends.filter(friend => {
-          return friend.id !== id;
+  updateFriend = updatedFriend => {
+    axios
+      .put(`http://localhost:5000/friends/${updatedFriend.id}`, updatedFriend)
+      .then(res =>
+        this.setState({
+          friends: res.data
         })
-      })
-    );
+      )
+      .catch(err => console.log(err));
   };
 
-  onFriendEdit = id => {
-    const updatedFriend = {
-      id,
-      name: this.state.name,
-      age: this.state.age,
-      email: this.state.email
-    };
-
-    axios.patch(`http://localhost:5000/friends/${id}`).then(() => {
-      this.setState({
-        friends: [...this.state.friends, updatedFriend]
-      });
+  targetFriend = id => {
+    const friend = this.state.friends.find(friend => {
+      return friend.id === id;
     });
+    this.setState({
+      selectedFriend: friend
+    });
+  };
+
+  onDeleteFriend = id => {
+    axios.delete(`http://localhost:5000/friends/${id}`).then(res =>
+      this.setState({
+        friends: res.data
+      })
+    );
   };
 
   render() {
@@ -111,38 +96,36 @@ class App extends Component {
         <Route
           exact
           path="/"
-          render={props => {
-            return this.state.friends.map(friend => {
-              return (
-                <FriendList
-                  key={friend.id}
-                  friend={friend}
-                  {...props}
-                  onClick={this.onDeleteFriend}
-                />
-              );
-            });
-          }}
+          render={props => (
+            <FriendList
+              friends={this.state.friends}
+              {...props}
+              onClick={this.onDeleteFriend}
+              editFriend={this.onFriendEdit}
+              targetFriend={this.targetFriend}
+            />
+          )}
         />
         <Route
+          exact
           path="/friends/add"
           render={props => (
             <AddFriend
               {...props}
               friends={this.state.friends}
-              onSubmit={this.onFormSubmit}
-              onChange={this.onInputChange}
+              addFriend={this.addFriend}
             />
           )}
         />
         <Route
-          path="/friends/edit/:id"
+          exact
+          path="/friends/edit-friend/:id"
           render={props => (
             <EditFriend
               {...props}
               friends={this.state.friends}
-              onSubmit={this.onFormSubmit}
-              onChange={this.onInputChange}
+              selectedFriend={this.state.selectedFriend}
+              updateFriend={this.updateFriend}
             />
           )}
         />
@@ -151,4 +134,6 @@ class App extends Component {
   }
 }
 
-export default App;
+const AppWithRouter = withRouter(App);
+
+export default AppWithRouter;

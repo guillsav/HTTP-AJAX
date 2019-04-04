@@ -1,23 +1,31 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 
 class EditFriend extends Component {
   state = {
-    name: '',
-    age: '',
-    email: ''
+    friend: this.props.selectedFriend
   };
-  componentDidMount() {
-    const {id} = this.props.match.params;
-    console.log(id);
 
-    const res = axios.get(`http://localhost:5000/friends/`);
-    console.log(res);
-  }
+  onInputChange = e => {
+    e.persist();
+    this.setState(prevState => ({
+      friend: {
+        ...prevState.friend,
+        [e.target.name]: e.target.value
+      }
+    }));
+  };
+
+  onFormSubmit = e => {
+    e.preventDefault();
+    this.props.updateFriend(this.state.friend);
+
+    this.props.history.push('/');
+  };
+
   render() {
     return (
       <div className="AddFriend">
-        <form onSubmit={this.props.onSubmit}>
+        <form onSubmit={this.onFormSubmit}>
           <h2>
             <span>Update</span> your Friend!
           </h2>
@@ -26,10 +34,10 @@ class EditFriend extends Component {
               <label>First name</label>
               <input
                 required
-                onChange={this.props.onChange}
+                onChange={this.onInputChange}
                 type="text"
                 name="name"
-                value={this.props.name}
+                value={this.state.friend.name}
                 placeholder="Enter name..."
               />
             </div>
@@ -37,10 +45,10 @@ class EditFriend extends Component {
               <label>Age</label>
               <input
                 required
-                onChange={this.props.onChange}
+                onChange={this.onInputChange}
                 type="text"
                 name="age"
-                value={this.props.age}
+                value={this.state.friend.age}
                 placeholder="Enter age..."
               />
             </div>
@@ -48,10 +56,10 @@ class EditFriend extends Component {
               <label>Email address</label>
               <input
                 required
-                onChange={this.props.onChange}
+                onChange={this.onInputChange}
                 type="email"
                 name="email"
-                value={this.props.email}
+                value={this.state.friend.email}
                 placeholder="Enter email..."
               />
             </div>
