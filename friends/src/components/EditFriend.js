@@ -1,14 +1,25 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
-import './AddFriend.css';
+class EditFriend extends Component {
+  state = {
+    name: '',
+    age: '',
+    email: ''
+  };
+  componentDidMount() {
+    const {id} = this.props.match.params;
+    console.log(id);
 
-class AddFriend extends Component {
+    const res = axios.get(`http://localhost:5000/friends/`);
+    console.log(res);
+  }
   render() {
     return (
       <div className="AddFriend">
         <form onSubmit={this.props.onSubmit}>
           <h2>
-            <span>Add</span> a Friend!
+            <span>Update</span> your Friend!
           </h2>
           <div className="form-items">
             <div className="item">
@@ -45,11 +56,11 @@ class AddFriend extends Component {
               />
             </div>
           </div>
-          <input className="btn-form" type="submit" value="Add New Friend" />
+          <input className="btn-form" type="submit" value="Update Friend" />
         </form>
       </div>
     );
   }
 }
 
-export default AddFriend;
+export default EditFriend;

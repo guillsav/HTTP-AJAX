@@ -6,7 +6,7 @@ import './FriendList.css';
 const FriendsList = props => {
   return (
     <div className="FriendList">
-      <FriendCard friend={props.friend} />
+      <FriendCard {...props} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import axios from 'axios';
 import {NavLink, Route} from 'react-router-dom';
 import FriendList from './components/FriendsList';
 import AddFriend from './components/AddFriend';
+import EditFriend from './components/EditFriend';
 import './App.css';
 
 class App extends Component {
@@ -68,12 +69,37 @@ class App extends Component {
     });
   };
 
+  onDeleteFriend = id => {
+    axios.delete(`http://localhost:5000/friends/${id}`).then(() =>
+      this.setState({
+        friends: this.state.friends.filter(friend => {
+          return friend.id !== id;
+        })
+      })
+    );
+  };
+
+  onFriendEdit = id => {
+    const updatedFriend = {
+      id,
+      name: this.state.name,
+      age: this.state.age,
+      email: this.state.email
+    };
+
+    axios.patch(`http://localhost:5000/friends/${id}`).then(() => {
+      this.setState({
+        friends: [...this.state.friends, updatedFriend]
+      });
+    });
+  };
+
   render() {
     return (
       <div className="App">
         <div className="navigation">
           <div className="header">
-            <h2>MyFriends</h2>
+            <h2>Friends List</h2>
             <nav>
               <NavLink exact to="/">
                 Home
@@ -82,14 +108,19 @@ class App extends Component {
             </nav>
           </div>
         </div>
-
-        <div className="friend-list">{}</div>
         <Route
           exact
           path="/"
           render={props => {
             return this.state.friends.map(friend => {
-              return <FriendList key={friend.id} friend={friend} {...props} />;
+              return (
+                <FriendList
+                  key={friend.id}
+                  friend={friend}
+                  {...props}
+                  onClick={this.onDeleteFriend}
+                />
+              );
             });
           }}
         />
@@ -97,6 +128,17 @@ class App extends Component {
           path="/friends/add"
           render={props => (
             <AddFriend
+              {...props}
+              friends={this.state.friends}
+              onSubmit={this.onFormSubmit}
+              onChange={this.onInputChange}
+            />
+          )}
+        />
+        <Route
+          path="/friends/edit/:id"
+          render={props => (
+            <EditFriend
               {...props}
               friends={this.state.friends}
               onSubmit={this.onFormSubmit}

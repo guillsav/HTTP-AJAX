@@ -3,7 +3,7 @@
 }
 
 .App .navigation {
-  background: #262626;
+  background: #01c660;
 }
 
 .App .header {
@@ -15,24 +15,45 @@
 }
 
 .App .navigation h2 {
-  padding: 0;
+  padding: 0px;
   color: #fff;
+  font-family: 'Paytone One', BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .App .navigation a {
   color: #fff;
   text-decoration: none;
-  font-weight: 600;
-  opacity: 0.6;
-  padding: 25px;
+  font-weight: 400;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 0 10px;
+  opacity: 0.8;
 }
 
 .App .navigation a.active {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.098);
+  background: rgba(35, 34, 34, 0.126);
 }
 
 .App .title {
   font-size: 28px;
   margin-top: 30px;
+  width: 460px;
+  display: flex;
+  justify-content: left;
+}
+
+.App .title h2 {
+  color: #262626de;
+  font-size: 28px;
+  margin: 0;
+  font-family: 'Paytone One', BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.App h2 span {
+  color: #01c660;
 }
