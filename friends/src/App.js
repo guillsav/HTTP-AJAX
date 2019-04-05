@@ -38,11 +38,7 @@ class App extends Component {
         });
         this.props.history.push('/');
       })
-      .catch(err =>
-        this.setState({
-          err
-        })
-      );
+      .catch(err => console.log(err));
 
     this.setState({
       name: '',
@@ -101,7 +97,6 @@ class App extends Component {
               friends={this.state.friends}
               {...props}
               onClick={this.onDeleteFriend}
-              editFriend={this.onFriendEdit}
               targetFriend={this.targetFriend}
             />
           )}

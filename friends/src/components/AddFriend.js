@@ -7,7 +7,8 @@ class AddFriend extends Component {
     friend: {
       name: '',
       age: '',
-      email: ''
+      email: '',
+      errors: {}
     }
   };
 
@@ -23,6 +24,22 @@ class AddFriend extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
+
+    if (this.state.friend.name === '') {
+      this.setState({errors: {name: 'name is required'}});
+      return;
+    }
+
+    if (this.state.friend.age === '') {
+      this.setState({errors: {age: 'age is required'}});
+      return;
+    }
+
+    if (this.state.friend.email === '') {
+      this.setState({errors: {email: 'email is required'}});
+      return;
+    }
+
     this.props.addFriend(this.state.friend);
   };
 
@@ -38,7 +55,6 @@ class AddFriend extends Component {
             <div className="item">
               <label>First name</label>
               <input
-                required
                 onChange={this.onInputChange}
                 type="text"
                 name="name"
@@ -49,7 +65,6 @@ class AddFriend extends Component {
             <div className="item">
               <label>Age</label>
               <input
-                required
                 onChange={this.onInputChange}
                 type="text"
                 name="age"
@@ -60,9 +75,8 @@ class AddFriend extends Component {
             <div className="item">
               <label>Email address</label>
               <input
-                required
                 onChange={this.onInputChange}
-                type="email"
+                type="text"
                 name="email"
                 value={email}
                 placeholder="Enter email..."

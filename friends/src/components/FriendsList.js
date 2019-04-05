@@ -18,8 +18,6 @@ const FriendsList = props => {
             age={friend.age}
             email={friend.email}
             onClick={props.onClick}
-            selectFriend={props.selectFriend}
-            friends={props.friends}
             targetFriend={props.targetFriend}
             {...props}
           />
