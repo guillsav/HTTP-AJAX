@@ -6,7 +6,23 @@ import './FriendList.css';
 const FriendsList = props => {
   return (
     <div className="FriendList">
-      <FriendCard friend={props.friend} />
+      {props.friends.map(friend => {
+        if (!friend) {
+          return <h3>Loading...</h3>;
+        }
+        return (
+          <FriendCard
+            key={friend.id}
+            id={friend.id}
+            name={friend.name}
+            age={friend.age}
+            email={friend.email}
+            onClick={props.onClick}
+            targetFriend={props.targetFriend}
+            {...props}
+          />
+        );
+      })}
     </div>
   );
 };

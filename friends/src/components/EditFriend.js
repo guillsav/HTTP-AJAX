@@ -1,15 +1,8 @@
 import React, {Component} from 'react';
 
-import './AddFriend.css';
-
-class AddFriend extends Component {
+class EditFriend extends Component {
   state = {
-    friend: {
-      name: '',
-      age: '',
-      email: '',
-      errors: {}
-    }
+    friend: this.props.selectedFriend
   };
 
   onInputChange = e => {
@@ -24,70 +17,58 @@ class AddFriend extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
+    this.props.updateFriend(this.state.friend);
 
-    if (this.state.friend.name === '') {
-      this.setState({errors: {name: 'name is required'}});
-      return;
-    }
-
-    if (this.state.friend.age === '') {
-      this.setState({errors: {age: 'age is required'}});
-      return;
-    }
-
-    if (this.state.friend.email === '') {
-      this.setState({errors: {email: 'email is required'}});
-      return;
-    }
-
-    this.props.addFriend(this.state.friend);
+    this.props.history.push('/');
   };
 
   render() {
-    const {name, age, email} = this.state.friend;
     return (
       <div className="AddFriend">
         <form onSubmit={this.onFormSubmit}>
           <h2>
-            <span>Add</span> a Friend!
+            <span>Update</span> your Friend!
           </h2>
           <div className="form-items">
             <div className="item">
               <label>First name</label>
               <input
+                required
                 onChange={this.onInputChange}
                 type="text"
                 name="name"
-                value={name}
+                value={this.state.friend.name}
                 placeholder="Enter name..."
               />
             </div>
             <div className="item">
               <label>Age</label>
               <input
+                required
                 onChange={this.onInputChange}
                 type="text"
                 name="age"
-                value={age}
+                value={this.state.friend.age}
                 placeholder="Enter age..."
               />
             </div>
             <div className="item">
               <label>Email address</label>
               <input
+                required
                 onChange={this.onInputChange}
-                type="text"
+                type="email"
                 name="email"
-                value={email}
+                value={this.state.friend.email}
                 placeholder="Enter email..."
               />
             </div>
           </div>
-          <input className="btn-form" type="submit" value="Add New Friend" />
+          <input className="btn-form" type="submit" value="Update Friend" />
         </form>
       </div>
     );
   }
 }
 
-export default AddFriend;
+export default EditFriend;
